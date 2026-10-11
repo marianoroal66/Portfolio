@@ -70,14 +70,26 @@
             <!-- Logo Brand -->
             <a href="#" class="flex items-center gap-3 group">
                 <div class="w-12 h-12 rounded-full overflow-hidden border border-brand-500/40 group-hover:border-brand-500 transition-colors flex items-center justify-center bg-stone-900 p-1">
-                    <img 
+                
+                    <img
                         id="company-logo"
-                        src="https://lh3.googleusercontent.com/d/1RIWDKp5Ga-Ilu0mzohIyXyPrwb_5B27V" 
-                        alt="Logo Mariano Rodríguez" 
-                        class="w-full h-full object-contain"
-                        referrerpolicy="no-referrer"
-                        onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-10 h-10 rounded-full bg-stone-900 border border-brand-500/40 flex items-center justify-center text-brand-500 font-serif font-bold text-xl\'><i class=\'fa-solid fa-compass-drafting text-sm\'></i></div>';"
+                        alt="Logo Mariano Rodríguez"
+                        class="w-full h-full object-contain hidden"
+                        onload="
+                            this.classList.remove('hidden');
+                            document.getElementById('logo-fallback').classList.add('hidden');
+                        "
+                        onerror="
+                            this.classList.add('hidden');
+                            document.getElementById('logo-fallback').classList.remove('hidden');
+                        "
                     >
+                
+                    <i
+                        id="logo-fallback"
+                        class="fa-solid fa-compass-drafting text-brand-500 text-xl"
+                    ></i>
+                
                 </div>
                 <div>
                     <span class="font-serif text-xl sm:text-2xl font-bold tracking-tight text-stone-100 group-hover:text-brand-500 transition-colors">Mariano Rodríguez</span>
@@ -237,7 +249,10 @@
 
                 if (data.logoUrl) {
                     const logoEl = document.getElementById("company-logo");
-                    if (logoEl) logoEl.src = formatDriveUrl(data.logoUrl);
+                
+                    if (logoEl) {
+                        logoEl.src = data.logoUrl;
+                    }
                 }
 
                 if (data.status === "success" && Array.isArray(data.projects) && data.projects.length > 0) {
