@@ -70,26 +70,15 @@
             <!-- Logo Brand -->
             <a href="#" class="flex items-center gap-3 group">
                 <div class="w-12 h-12 rounded-full overflow-hidden border border-brand-500/40 group-hover:border-brand-500 transition-colors flex items-center justify-center bg-stone-900 p-1">
-                
+
+                    <!-- Logo servido por GitHub Pages, independiente de Google Drive -->
                     <img
                         id="company-logo"
+                        src="./logo.png?v=3"
                         alt="Logo Mariano Rodríguez"
-                        class="w-full h-full object-contain hidden"
-                        onload="
-                            this.classList.remove('hidden');
-                            document.getElementById('logo-fallback').classList.add('hidden');
-                        "
-                        onerror="
-                            this.classList.add('hidden');
-                            document.getElementById('logo-fallback').classList.remove('hidden');
-                        "
+                        class="w-full h-full object-contain"
+                        decoding="async"
                     >
-                
-                    <i
-                        id="logo-fallback"
-                        class="fa-solid fa-compass-drafting text-brand-500 text-xl"
-                    ></i>
-                
                 </div>
                 <div>
                     <span class="font-serif text-xl sm:text-2xl font-bold tracking-tight text-stone-100 group-hover:text-brand-500 transition-colors">Mariano Rodríguez</span>
@@ -242,18 +231,11 @@
             return url;
         }
 
+        // El logo se sirve como archivo estático; esta API solo carga los proyectos.
         async function loadProjectsFromAPI() {
             try {
                 const response = await fetch(APPS_SCRIPT_URL);
                 const data = await response.json();
-
-                if (data.logoUrl) {
-                    const logoEl = document.getElementById("company-logo");
-                
-                    if (logoEl) {
-                        logoEl.src = data.logoUrl;
-                    }
-                }
 
                 if (data.status === "success" && Array.isArray(data.projects) && data.projects.length > 0) {
                     projectsData = data.projects
